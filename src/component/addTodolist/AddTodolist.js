@@ -1,106 +1,79 @@
-import React from 'react'
-import { useState, useEffect } from 'react'
-import { Form, Input, Button, Checkbox } from 'antd';
+import React from "react";
+import { useState, useEffect } from "react";
+import { Form, Input, Button, Checkbox } from "antd";
 
-const AddTodolist = () => {
+const AddTodolist = ({ addTodo, arrTodo, completedTodo }) => {
+    const [content, setContent] = useState("");
 
-
-    const [edit, setEdit] = useState({
-        content: '',
-    });
-    const [addTodolist, setAddTodolist] = useState([]);
-
-    console.log('rrrr', addTodolist);
-
-    const handleClickAdd = () => {
-        setEdit({
-            ...edit,
-            content: edit.content,
-        })
+    const handleClickAdd = (e) => {
+        // console.log(content);
+        e.preventDefault();
         const newTodo = {
             id: Math.floor(Math.random() * 10000 + 1),
-            content: edit.content,
-            completed: false
+            content: content,
+            isCompleted: false,
         };
 
-        const arrayUpdate = [
-            ...addTodolist,
-            newTodo
-        ]
-
-
-        localStorage.setItem('details', JSON.stringify(arrayUpdate))
-        setAddTodolist(arrayUpdate)
-        setEdit('')
-
-    }
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setEdit({
-            ...edit,
-            [name]: value
-        })
-    }
+        addTodo(newTodo);
+        setContent("");
+        // console.log({ arrTodo });
+    };
 
     const onChange = (e) => {
         const { checked, value } = e.target;
-        console.log(checked);
-        let index = addTodolist.findIndex(item => item.id === value);
-        if (index !== -1) {
-            addTodolist[index] = { ...addTodolist[index], completed: checked }
-            setAddTodolist(addTodolist)
-            console.log('mmmmm', addTodolist);
-        }
+
+        completedTodo(checked, value);
     };
     return (
         <div>
             <Form
-                onFinish={handleClickAdd}
                 style={{
-                    display: 'flex',
-                    justifyContent: 'space-between'
+                    display: "flex",
+                    justifyContent: "space-between",
                 }}
             >
-                <Form.Item
-                    style={{ width: 500 }}
-                >
+                <Form.Item style={{ width: 500 }}>
                     <Input
-                        name='content'
-                        value={edit.content}
+                        name="content"
+                        value={content}
                         placeholder="add details"
-                        onChange={handleChange}
-
+                        onChange={(e) => {
+                            setContent(e.target.value);
+                        }}
                     />
                 </Form.Item>
                 <Button
                     type="primary"
-                    // onClick={handleClickAdd}
-                    htmlType='submit'
+                    onClick={handleClickAdd}
+                //   htmlType="submit"
                 >
                     Add
                 </Button>
             </Form>
-            <ul>
-                {
-                    addTodolist.map((edit, index) => {
-                        console.log('okok', edit);
-                        return <div key={index}>
-                            <Checkbox
-                                onChange={onChange}
-                                value={edit.id}
-                            // checked={edit.completed}
-                            >
-                                <li>
-                                    {edit.completed ? <b style={{ textDecorationLine: 'line-through' }}>{edit.content}</b> : <b >{edit.content}</b>}
-                                </li>
-                            </Checkbox>
-                        </div>
-                    })
-                }
-            </ul>
-        </div>
-    )
-}
 
-export default AddTodolist
+            {arrTodo?.map((item, index) => {
+                console.log("ITEM", item);
+                console.log({ arrTodo });
+                return (
+                    <div key={index}>
+                        <Checkbox
+                            onChange={onChange}
+                            value={item.id}
+                            checked={item.isCompleted}
+                        >
+                            {item.isCompleted ? (
+                                <b style={{ textDecorationLine: "line-through" }}>
+                                    {item.content}
+                                </b>
+                            ) : (
+                                <b>{item.content}</b>
+                            )}
+                        </Checkbox>
+                    </div>
+                );
+            })}
+        </div>
+    );
+};
+
+export default AddTodolist;

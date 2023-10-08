@@ -1,46 +1,54 @@
-import { Button, Checkbox } from 'antd';
-import { useEffect, useState } from 'react'
-import React from 'react'
-import { DeleteOutlined } from '@ant-design/icons';
+import { Button, Checkbox } from "antd";
+import { useEffect, useState } from "react";
+import React from "react";
+import { DeleteOutlined } from "@ant-design/icons";
 
-
-const DeleteTodolist = () => {
-
-    const localJson = JSON.parse(localStorage.getItem("details"))
-
-    useEffect(() => {
-        setArrayTodo(localJson)
-    }, [localJson])
-
-    const [arrayTodo, setArrayTodo] = useState(localJson);
-    const onChange = () => {
-
-    }
+const DeleteTodolist = ({ arrTodo, completedTodo, deleteTodo, deleteAll }) => {
+    const onChange = (e) => {
+        const { checked, value } = e.target;
+        completedTodo(checked, value);
+    };
 
     return (
         <div>
             <ul>
-                {
-                    arrayTodo?.map((item, index) => {
-                        console.log('okok', item);
-                        return <div>
-                            <Checkbox
-                                onChange={onChange}
-                                checked={item.completed}
-                                value={item.id}
-                            >
-                                <li key={index}>{item.content}</li>
-                            </Checkbox>
-                            <DeleteOutlined />
-
-                        </div>
-
-                    })
-                }
+                {arrTodo
+                    ?.filter((todo) => todo.isCompleted)
+                    .map((item, index) => {
+                        console.log("okok", item);
+                        return (
+                            <div>
+                                <Checkbox
+                                    onChange={onChange}
+                                    value={item.id}
+                                    checked={item.isCompleted}
+                                >
+                                    {item.isCompleted ? (
+                                        <b style={{ textDecorationLine: "line-through" }}>
+                                            {item.content}
+                                        </b>
+                                    ) : (
+                                        <b>{item.content}</b>
+                                    )}
+                                </Checkbox>
+                                <DeleteOutlined
+                                    onClick={() => {
+                                        deleteTodo(item.id);
+                                    }}
+                                />
+                            </div>
+                        );
+                    })}
             </ul>
-            <Button>Clear All</Button>
+            <Button
+                onClick={() => {
+                    deleteAll();
+                }}
+            >
+                Clear All
+            </Button>
         </div>
-    )
-}
+    );
+};
 
-export default DeleteTodolist
+export default DeleteTodolist;
