@@ -52,8 +52,8 @@ const AddTodolist = ({ addTodo, arrTodo, completedTodo }) => {
             </Form>
 
             {arrTodo?.map((item, index) => {
-                console.log("ITEM", item);
-                console.log({ arrTodo });
+                // console.log("ITEM", item);
+                // console.log({ arrTodo });
                 return (
                     <div key={index}>
                         <Checkbox

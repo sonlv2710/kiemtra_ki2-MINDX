@@ -15,7 +15,7 @@ const DeleteTodolist = ({ arrTodo, completedTodo, deleteTodo, deleteAll }) => {
                 {arrTodo
                     ?.filter((todo) => todo.isCompleted)
                     .map((item, index) => {
-                        console.log("okok", item);
+                        // console.log("okok", item);
                         return (
                             <div style={{ display: 'flex', justifyContent: "space-between" }}>
                                 <div>
