@@ -1,51 +1,44 @@
-import { Form, Input, Button, Checkbox } from 'antd';
-import { useState } from 'react'
+import { Button, Checkbox } from 'antd';
+import { useEffect, useState } from 'react'
 import React from 'react'
 import { DeleteOutlined } from '@ant-design/icons';
 
 
 const DeleteTodolist = () => {
 
-    const [addTodolist, setAddTodolist] = useState(() => {
-        const storageDetail = JSON.parse(localStorage.getItem('details'))
-        return storageDetail
-    });
+    const localJson = JSON.parse(localStorage.getItem("details"))
 
+    useEffect(() => {
+        setArrayTodo(localJson)
+    }, [localJson])
 
+    const [arrayTodo, setArrayTodo] = useState(localJson);
+    const onChange = () => {
 
-    const onChange = (e) => {
-        // console.log(`checked = ${e.target.checked}`);
-    };
-    const handleDelete = (id) => {
-        let index = addTodolist.findIndex(item => item.id === id)
-        if (index !== -1) {
-            setAddTodolist(addTodolist.splice(index, 1))
-        }
     }
 
-    const handleClickAll = ({ id }) => {
-        setAddTodolist(addTodolist.filter((todo) => todo.id !== id));
-    }
     return (
         <div>
             <ul>
                 {
-                    addTodolist.map((edit, index) => {
-                        // console.log('xem edit', edit);
+                    arrayTodo?.map((item, index) => {
+                        console.log('okok', item);
                         return <div>
-                            <Checkbox style={{ marginRight: 400 }} onChange={onChange}><li key={index}>{edit}</li></Checkbox> <DeleteOutlined onClick={() => { handleDelete(edit.id) }} />
+                            <Checkbox
+                                onChange={onChange}
+                                checked={item.completed}
+                                value={item.id}
+                            >
+                                <li key={index}>{item.content}</li>
+                            </Checkbox>
+                            <DeleteOutlined />
+
                         </div>
 
                     })
                 }
             </ul>
-            <Button
-                type='primary'
-                danger
-                style={{ marginLeft: 450 }}
-                onClick={handleClickAll}
-            >Delete All
-            </Button>
+            <Button>Clear All</Button>
         </div>
     )
 }

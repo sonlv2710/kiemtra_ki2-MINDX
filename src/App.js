@@ -5,9 +5,9 @@ import DeleteTodolist from './component/deleteTodolist/DeleteTodolist';
 import EditTodolist from './component/edittodolist/EditTodolist';
 import "./App.css"
 
-const onChange = (key) => {
-  console.log(key);
-};
+// const onChange = (key) => {
+//   console.log(key);
+// };
 const items = [
   {
     key: '1',
@@ -28,7 +28,7 @@ const items = [
 const App = () => {
   return (
     <div className='appTodolist'>
-      <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
+      <Tabs defaultActiveKey="1" items={items} />
     </div>
   )
 }

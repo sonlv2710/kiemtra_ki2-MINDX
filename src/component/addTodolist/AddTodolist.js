@@ -6,35 +6,31 @@ const AddTodolist = () => {
 
 
     const [edit, setEdit] = useState({
-        Id: '',
         content: '',
-        completed: false,
     });
     const [addTodolist, setAddTodolist] = useState([]);
 
-
+    console.log('rrrr', addTodolist);
 
     const handleClickAdd = () => {
         setEdit({
             ...edit,
-            Id: 1,
             content: edit.content,
-            completed: false,
-        }
-        )
-        setAddTodolist(
-            [...addTodolist,
-                edit
-            ]
-            // const newDetail = [...prev, edit];
-            // // save local
-            // const jsondetail = JSON.stringify(newDetail)
-            // localStorage.setItem('details', jsondetail);
+        })
+        const newTodo = {
+            id: Math.floor(Math.random() * 10000 + 1),
+            content: edit.content,
+            completed: false
+        };
 
-            // return newDetail
-        )
-        console.log(edit);
-        localStorage.setItem('details', JSON.stringify(addTodolist))
+        const arrayUpdate = [
+            ...addTodolist,
+            newTodo
+        ]
+
+
+        localStorage.setItem('details', JSON.stringify(arrayUpdate))
+        setAddTodolist(arrayUpdate)
         setEdit('')
 
     }
@@ -48,7 +44,14 @@ const AddTodolist = () => {
     }
 
     const onChange = (e) => {
-        // console.log(`checked = ${e.target.checked}`);
+        const { checked, value } = e.target;
+        console.log(checked);
+        let index = addTodolist.findIndex(item => item.id === value);
+        if (index !== -1) {
+            addTodolist[index] = { ...addTodolist[index], completed: checked }
+            setAddTodolist(addTodolist)
+            console.log('mmmmm', addTodolist);
+        }
     };
     return (
         <div>
@@ -82,12 +85,16 @@ const AddTodolist = () => {
                 {
                     addTodolist.map((edit, index) => {
                         console.log('okok', edit);
-                        return <div>
+                        return <div key={index}>
                             <Checkbox
                                 onChange={onChange}
                                 value={edit.id}
-                                checked={edit.completed}
-                            ><li key={index}>{edit.content}</li></Checkbox>
+                            // checked={edit.completed}
+                            >
+                                <li>
+                                    {edit.completed ? <b style={{ textDecorationLine: 'line-through' }}>{edit.content}</b> : <b >{edit.content}</b>}
+                                </li>
+                            </Checkbox>
                         </div>
                     })
                 }
