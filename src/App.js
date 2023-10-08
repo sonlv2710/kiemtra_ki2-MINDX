@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { Tabs } from 'antd';
+import AddTodolist from './component/addTodolist/AddTodolist';
+import DeleteTodolist from './component/deleteTodolist/DeleteTodolist';
+import EditTodolist from './component/edittodolist/EditTodolist';
+import "./App.css"
 
-function App() {
+const onChange = (key) => {
+  console.log(key);
+};
+const items = [
+  {
+    key: '1',
+    label: 'ALL',
+    children: <AddTodolist />,
+  },
+  {
+    key: '2',
+    label: 'Active',
+    children: <EditTodolist />,
+  },
+  {
+    key: '3',
+    label: 'Completed',
+    children: <DeleteTodolist />,
+  },
+];
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='appTodolist'>
+      <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
     </div>
-  );
+  )
 }
-
 export default App;
