@@ -93,6 +93,7 @@ const App = () => {
   ];
   return (
     <div className="appTodolist">
+      <h1 style={{ textAlign: 'center' }}>Todolist</h1>
       <Tabs defaultActiveKey="1" items={items} />
     </div>
   );

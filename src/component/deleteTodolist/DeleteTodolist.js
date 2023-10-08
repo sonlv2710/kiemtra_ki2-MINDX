@@ -17,30 +17,37 @@ const DeleteTodolist = ({ arrTodo, completedTodo, deleteTodo, deleteAll }) => {
                     .map((item, index) => {
                         console.log("okok", item);
                         return (
-                            <div>
-                                <Checkbox
-                                    onChange={onChange}
-                                    value={item.id}
-                                    checked={item.isCompleted}
-                                >
-                                    {item.isCompleted ? (
-                                        <b style={{ textDecorationLine: "line-through" }}>
-                                            {item.content}
-                                        </b>
-                                    ) : (
-                                        <b>{item.content}</b>
-                                    )}
-                                </Checkbox>
-                                <DeleteOutlined
-                                    onClick={() => {
-                                        deleteTodo(item.id);
-                                    }}
-                                />
+                            <div style={{ display: 'flex', justifyContent: "space-between" }}>
+                                <div>
+                                    <Checkbox
+                                        onChange={onChange}
+                                        value={item.id}
+                                        checked={item.isCompleted}
+                                    >
+                                        {item.isCompleted ? (
+                                            <b style={{ textDecorationLine: "line-through" }}>
+                                                {item.content}
+                                            </b>
+                                        ) : (
+                                            <b>{item.content}</b>
+                                        )}
+                                    </Checkbox>
+                                </div>
+                                <div>
+                                    <DeleteOutlined
+                                        onClick={() => {
+                                            deleteTodo(item.id);
+                                        }}
+                                    />
+                                </div>
                             </div>
                         );
                     })}
             </ul>
             <Button
+                style={{ position: 'absolute', left: 550 }}
+                type="primary"
+                danger
                 onClick={() => {
                     deleteAll();
                 }}
